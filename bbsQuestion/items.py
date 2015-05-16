@@ -12,7 +12,7 @@ class BbsquestionItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
 
-    boardName = scrapy.Field()
+    boardLink = scrapy.Field()
     pageNum= scrapy.Field()
     questionLinkList= scrapy.Field()
     questionTypeList= scrapy.Field()

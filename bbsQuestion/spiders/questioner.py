@@ -41,18 +41,18 @@ class QuestionerSpider(scrapy.Spider):
     def parse(self, response):
 
         try:
-            totalPageNum = response.xpath('//div[@class="t-pre-bottom"]//ul[@class="pagination"]//ol[@class="page-main"]/li[last()-1]/a/text()').extract()
+            totalPageNum = int(response.xpath('//div[@class="t-pre-bottom"]//ul[@class="pagination"]//ol[@class="page-main"]/li[last()-1]/a/text()').extract()[0])
         except:
-            totalPageNum = response.xpath('//div[@class="t-pre-bottom"]//ul[@class="pagination"]//ol[@class="page-main"]/li[last()]/a/text()').extract()
-
+            totalPageNum = int(response.xpath('//div[@class="t-pre-bottom"]//ul[@class="pagination"]//ol[@class="page-main"]/li[last()]/a/text()').extract()[0])
+	# inspect_response(response,self)
         for index in range(1,totalPageNum+1):
-            yield Request(response.url+'?p=' +str(index),callback = self.parsePage)
+            yield Request(response.url+"?p=" +str(index),callback = self.parsePage)
       #  print item['sectionListLink']
 
     def parsePage(self,response):
         item = BbsquestionItem()
         tbody = response.xpath('//div[@class="b-content"]//tbody')
-        item['boardName'] = "/board/"+re.split('board/(\w*)',response.url)[1]
+        item['boardLink'] = "/board/"+re.split('board/(\w*)',response.url)[1]
         item['pageNum'] = int(re.split('(\d*)',response.url)[1])
         item['questionLinkList'] = tbody.xpath('//tr/td[1]/a/@href').extract()
         item['questionTypeList'] = tbody.xpath('//tr/td[1]//samp/@class').re('tag ico-pos-article-(\w*)')
@@ -65,3 +65,5 @@ class QuestionerSpider(scrapy.Spider):
         item['questionLastReplyDatetimeList'] = tbody.xpath('//tr/td[6]/a/text()').extract()
         item['questionLastReplyIdLinkList'] = tbody.xpath('//tr/td[7]/a/@href').extract()
         item['questionLastReplyIdList'] = tbody.xpath('//tr/td[7]/a/text()').extract()
+	
+	return item

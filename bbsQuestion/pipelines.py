@@ -42,13 +42,15 @@ class QuestionPipeline(object):
                     question.set('questionAuthorId',item['questionAuthorIdList'][index])
                     try:
                         question.save()
+			print "success question"
 
                     except LeanCloudError,e:
                         print e
             except LeanCloudError,e:
                 print e
-               # query.equal_to('questionReplyNum',item['questionReplyNumList'][index])
-            queryInfo.equal_to('questionLink',item['questionLinkList'][index])
+            
+
+	    queryInfo.equal_to('questionLink',item['questionLinkList'][index])
             queryInfo.equal_to('questionReplyCount',int(item['questionReplyCountList'][index]))
             try:
                 if queryInfo.find():
@@ -71,7 +73,7 @@ class QuestionPipeline(object):
 
                     try:
                         questionInfo.save()
-
+			print "success questionInfo"
                     except LeanCloudError,e:
                         print e
             except LeanCloudError,e:
@@ -79,6 +81,6 @@ class QuestionPipeline(object):
 
 
 
-        return item
-        #DropItem()
+        #return item
+        DropItem()
 
