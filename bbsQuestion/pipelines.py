@@ -42,6 +42,7 @@ class QuestionPipeline(object):
             questionInfo = QuestionInfo()
             questionNumBoard = QuesNumBoard()
             query = Query(QuesNumBoard)
+
             query.equal_to('boardId',boardId)
             questionNumBoardRet= query.find()
             if questionNumBoardRet:
@@ -64,7 +65,7 @@ class QuestionPipeline(object):
             # query.equal_to('questionLink',item['questionLinkList'][index])
             try:
                 # if query.find():
-                if 1:
+                if 0:
                     pass
                 else:
 
@@ -87,7 +88,7 @@ class QuestionPipeline(object):
             # queryInfo.equal_to('questionReplyCount',int(item['questionReplyCountList'][index]))
             try:
                 # if queryInfo.find():
-                if 1:
+                if 0:
                     pass
                 else:
                     questionInfo.set('boardId',boardId)

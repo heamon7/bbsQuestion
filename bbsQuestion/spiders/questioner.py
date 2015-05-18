@@ -65,13 +65,13 @@ class QuestionerSpider(scrapy.Spider):
         item['questionTypeList'] = tbody.xpath('//tr/td[1]//samp/@class').re('tag ico-pos-article-(\w*)')
         item['questionNameList'] = tbody.xpath('//tr/td[2]/a/text()').extract()
         item['questionReleaseDatetimeList'] = tbody.xpath('//tr/td[3]/text()').extract()
-        item['questionAuthorLinkList'] = tbody.xpath('//tr/td[4]/a/@href').extract()
+        #item['questionAuthorLinkList'] = tbody.xpath('//tr/td[4]/a/@href').extract()
         item['questionAuthorIdList'] = tbody.xpath('//tr/td[4]/a/text()').extract()
         item['questionReplyCountList'] = tbody.xpath('//tr/td[5]/text()').extract()
-        item['questionLastReplyLinkList'] = tbody.xpath('//tr/td[6]/a/@href').extract()
+        #item['questionLastReplyLinkList'] = tbody.xpath('//tr/td[6]/a/@href').extract()
         item['questionLastReplyDatetimeList'] = tbody.xpath('//tr/td[6]/a/text()').extract()
-        item['questionLastReplyIdLinkList'] = tbody.xpath('//tr/td[7]/a/@href').extract()
-        item['questionLastReplyIdList'] = tbody.xpath('//tr/td[7]/a/text()').extract()
+        #item['questionLastReplyIdLinkList'] = tbody.xpath('//tr/td[7]/a/@href').extract()
+        #item['questionLastReplyIdList'] = tbody.xpath('//tr/td[7]/a/text()').extract()
 	
         return item
 
