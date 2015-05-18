@@ -12,6 +12,8 @@ from scrapy import log
 from scrapy.exceptions import DropItem
 
 from  bbsQuestion.items import BbsquestionItem
+from bbsQuestion import settings
+import os
 
 class QuestionerSpider(scrapy.Spider):
     name = "questioner"
@@ -20,8 +22,10 @@ class QuestionerSpider(scrapy.Spider):
     start_urls = (
         'http://www.bbs.byr.cn/',
     )
-    def __init__(self):
-        leancloud.init('mctfj249nwy7c1ymu3cps56lof26s17hevwq4jjqeqoloaey', master_key='ao6h5oezem93tumlalxggg039qehcbl3x3u8ofo7crw7atok')
+    def __init__(self,stats):
+        self.stats = stats
+
+        leancloud.init(settings.APP_ID_S, master_key=settings.MASTER_KEY_S)
 
         Boards = Object.extend('Boards')
         query = Query(Boards)
@@ -32,9 +36,13 @@ class QuestionerSpider(scrapy.Spider):
         for board in boards:
             self.urls.append(self.baseUrl+board.get('boardLink'))
 
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(crawler.stats)
+
     def start_requests(self):
-        print "start_requests ing ......"
-        print self.urls
+        # print "start_requests ing ......"
+        # print self.urls
         for url in self.urls:
             yield Request(url,callback = self.parse)
 
@@ -44,7 +52,6 @@ class QuestionerSpider(scrapy.Spider):
             totalPageNum = int(response.xpath('//div[@class="t-pre-bottom"]//ul[@class="pagination"]//ol[@class="page-main"]/li[last()-1]/a/text()').extract()[0])
         except:
             totalPageNum = int(response.xpath('//div[@class="t-pre-bottom"]//ul[@class="pagination"]//ol[@class="page-main"]/li[last()]/a/text()').extract()[0])
-	# inspect_response(response,self)
         for index in range(1,totalPageNum+1):
             yield Request(response.url+"?p=" +str(index),callback = self.parsePage)
       #  print item['sectionListLink']
@@ -66,4 +73,25 @@ class QuestionerSpider(scrapy.Spider):
         item['questionLastReplyIdLinkList'] = tbody.xpath('//tr/td[7]/a/@href').extract()
         item['questionLastReplyIdList'] = tbody.xpath('//tr/td[7]/a/text()').extract()
 	
-	return item
+        return item
+
+    def closed(self,reason):
+        #f = open('../../nohup.out')
+        #print f.read()
+        leancloud.init(settings.APP_ID, master_key=settings.MASTER_KEY)
+
+        try:
+            nohupOut = open(os.getcwd()+'/nohup.out','r').read()
+        except:
+            nohupOut = "Cannot read nohup.out file"
+        CrawlerLog = Object.extend('CrawlerLog')
+        crawlerLog = CrawlerLog()
+
+        crawlerLog.set('crawlerName',self.name)
+        crawlerLog.set('crawlerLog',nohupOut)
+        crawlerLog.set('closedReason',reason)
+        crawlerLog.set('crawlerStats',self.stats.get_stats())
+        try:
+            crawlerLog.save()
+        except:
+            pass

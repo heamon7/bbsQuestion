@@ -15,7 +15,17 @@ NEWSPIDER_MODULE = 'bbsQuestion.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'bbsQuestion (+http://www.yourdomain.com)'
+LOG_LEVEL = 'INFO'
+DOWNLOAD_TIMEOUT = 700
 
+CONCURRENT_REQUESTS = 70
+CONCURRENT_REQUESTS_PER_DOMAIN = 70
+
+APP_ID_S = 'duup4nkq5akxwbwj31izrdgektpdgmndpo8n1da0yyr7kt8e'
+MASTER_KEY_S = 'h6nmwctox2c7ai5c0jj3ea75i7ee8syjzzkcvmho0v9e3gh1'
+
+APP_ID = 'duup4nkq5akxwbwj31izrdgektpdgmndpo8n1da0yyr7kt8e'
+MASTER_KEY = 'h6nmwctox2c7ai5c0jj3ea75i7ee8syjzzkcvmho0v9e3gh1'
 
 ITEM_PIPELINES = {
     'bbsQuestion.pipelines.QuestionPipeline': 300,
