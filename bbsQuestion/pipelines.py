@@ -23,7 +23,7 @@ class QuestionPipeline(object):
         leancloud.init(settings.APP_ID, master_key=settings.MASTER_KEY)
 
     def process_item(self, item, spider):
-        tableIndex = int(1000*time.time())% self.dbPrime
+        tableIndex = int(100*time.time())% self.dbPrime
         if tableIndex<10:
             tableIndexStr = '0' +str(tableIndex)
         else :
