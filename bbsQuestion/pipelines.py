@@ -17,12 +17,13 @@ import time
 
 
 class QuestionPipeline(object):
+    dbPrime = 97
+
     def __init__(self):
-        dbPrime = 97
         leancloud.init(settings.APP_ID, master_key=settings.MASTER_KEY)
 
     def process_item(self, item, spider):
-        tableIndex = int(1000*time.time())%self.dbPrime
+        tableIndex = int(1000*time.time())% self.dbPrime
         if tableIndex<10:
             tableIndexStr = '0' +str(tableIndex)
         else :
@@ -108,8 +109,5 @@ class QuestionPipeline(object):
             except LeanCloudError,e:
                 print e
 
-
-
-        #return item
         DropItem()
 
