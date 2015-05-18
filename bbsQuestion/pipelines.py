@@ -28,6 +28,9 @@ class QuestionPipeline(object):
         else :
             tableIndexStr = str(tableIndex)
 
+        boardId = re.split('/board/',item['boardLink'])[1]
+        QuestionNumBoard = Object.extend(boardId)
+
         Questions = Object.extend('Questions'+tableIndexStr)
         QuestionInfo = Object.extend('QuestionInfo'+tableIndexStr)
 
@@ -35,6 +38,25 @@ class QuestionPipeline(object):
         for index ,ques in enumerate(item['questionLinkList']):
             question = Questions()
             questionInfo = QuestionInfo()
+            questionNumBoard = QuestionNumBoard()
+            query = Query(QuestionNumBoard)
+            query.equal_to('boardId',boardId)
+            questionNumBoardRet= query.find()
+            if questionNumBoardRet:
+                questionNumBoardRet[0].increment('count',1)
+                try:
+                    questionNumBoardRet[0].save()
+                except LeanCloudError,e:
+                    print e
+            else:
+                questionNumBoard.set('count',0)
+                questionNumBoard.set('boardId',boardId)
+
+                try:
+                    questionNumBoard.save()
+                except LeanCloudError,e:
+                    print e
+
             # query = Query(Questions)
             # queryInfo = Query(QuestionInfo)
             # query.equal_to('questionLink',item['questionLinkList'][index])
@@ -44,7 +66,7 @@ class QuestionPipeline(object):
                     pass
                 else:
 
-                    question.set('boardId',re.split('/board/',item['boardLink'])[1])
+                    question.set('boardId',boardId)
                     # question.set('pageNum',item['pageNum'])
                     question.set('questionLink',item['questionLinkList'][index])
                     # question.set('questionName',item['questionNameList'][index])
@@ -66,7 +88,7 @@ class QuestionPipeline(object):
                 if 1:
                     pass
                 else:
-                    questionInfo.set('boardId',re.split('/board/',item['boardLink'])[1])
+                    questionInfo.set('boardId',boardId)
                     questionInfo.set('pageNum',item['pageNum'])
                     questionInfo.set('questionLink',item['questionLinkList'][index])
                     questionInfo.set('questionType',item['questionTypeList'][index])
