@@ -30,17 +30,18 @@ class QuestionPipeline(object):
             tableIndexStr = str(tableIndex)
 
         boardId = re.split('/board/',item['boardLink'])[1]
-        QuestionNumBoard = Object.extend(boardId)
 
         Questions = Object.extend('Questions'+tableIndexStr)
         QuestionInfo = Object.extend('QuestionInfo'+tableIndexStr)
+        QuesNumBoard = Object.extend('QuesNumBoard')
+
 
 
         for index ,ques in enumerate(item['questionLinkList']):
             question = Questions()
             questionInfo = QuestionInfo()
-            questionNumBoard = QuestionNumBoard()
-            query = Query(QuestionNumBoard)
+            questionNumBoard = QuesNumBoard()
+            query = Query(QuesNumBoard)
             query.equal_to('boardId',boardId)
             questionNumBoardRet= query.find()
             if questionNumBoardRet:
