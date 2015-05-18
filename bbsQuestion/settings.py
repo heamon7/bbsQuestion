@@ -24,8 +24,8 @@ CONCURRENT_REQUESTS_PER_DOMAIN = 70
 APP_ID_S = 'w359bnk9hh7z8fx0hsy6ee7b2tmf5va250hstatnu0a2iqbi'
 MASTER_KEY_S = '6k2z44pax0ueopc4qmbnxa8gzg6inon0t2a7d1fc6czqm1ei'
 
-APP_ID = 'duup4nkq5akxwbwj31izrdgektpdgmndpo8n1da0yyr7kt8e'
-MASTER_KEY = 'h6nmwctox2c7ai5c0jj3ea75i7ee8syjzzkcvmho0v9e3gh1'
+APP_ID = 'th0crrtntqpr8o7742r2q6q4i8b0lsmmgnzdhe6xw3e4lyze'
+MASTER_KEY = '3edds3mshfwrg78vphspyqi21mnkau15yjpthpq03yst708e'
 
 ITEM_PIPELINES = {
     'bbsQuestion.pipelines.QuestionPipeline': 300,
